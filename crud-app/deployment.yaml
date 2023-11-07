@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crud-app-deployment
+  labels:
+    app: crud
+spec:
+  selector:
+    matchLabels:
+      app: crud
+  template:
+    metadata:
+      labels:
+        app: crud
+    spec:
+      imagePullSecrets:
+        - name: gcr.io
+      containers:
+        - name: crud-app
+          image: gcr.io/kube-399605/crud-app:1.0.99
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_PORT
+              value: '3306'
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db_pass
+            - name: DB_USER
+              value: dev-user
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db_host
+            - name: DB_NAME
+              value: dev-db
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: crud-app-service
+spec:
+  type: NodePort
+  selector:
+    app: crud
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30007
