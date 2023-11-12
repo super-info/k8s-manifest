@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: spring-app
-        image:            gcr.io/kube-399605/product:1.0.117
+        image:             gcr.io/kube-399605/product:1.0.118
         ports:
         - containerPort: 8080
 ---
