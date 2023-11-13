@@ -17,7 +17,7 @@ spec:
         - name: gcr.io
       containers:
         - name: crud-app
-          image:         gcr.io/kube-399605/crud-app:1.0.132
+          image:          gcr.io/kube-399605/crud-app:1.0.133
           ports:
             - containerPort: 8080
           env:
